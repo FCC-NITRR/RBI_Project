@@ -1,4 +1,5 @@
 import requests
+import csv
 from bs4 import BeautifulSoup as bs
 
 HOME_URL = "https://www.rbi.org.in/"
@@ -16,13 +17,13 @@ def crawler1(url):
         for link in availableLinks:
             href = link['href']
             if '#' not in href:
-                if 'http' in href:
+                if 'http' in href and 'image' not in href:
                     allLinks.append(href)
-                elif '..' in href:
+                elif '..' in href and 'image' not in href:
                     href = HOME_URL + href[3:]
                     allLinks.append(href)
                 else:
-                    if '?' in url and '?' in href:
+                    if '?' in url and '?' in href and 'image' not in href:
                         i1 = url.index('?')
                         i2 = href.index('?')
                         href = url[:i1+1]+href[i2+1:]
@@ -52,15 +53,22 @@ def scrapeData(url):
 
         for content in data:
             allData += " " + content.get_text()
-        print(headingData)
-        print(allData)
-        print()
 
-        
+        write_to_csv(url, headingData, allData)
 
     else:
         print("Failed")
 
+def write_to_csv(url, headingData, allData):
+    with open('data.csv', 'a', newline='', encoding='utf-8') as csvfile:
+        fieldnames = ['URL', 'Heading', 'Content']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+        # Check if the file is empty, then write header
+        if csvfile.tell() == 0:
+            writer.writeheader()
+
+        writer.writerow({'URL': url, 'Heading': headingData, 'Content': allData})
 
 def homePageCrawler(url):
     response = requests.get(url)
@@ -83,7 +91,8 @@ def homePageCrawler(url):
                     directDataLinks.append(href)
 
         for x in directDataLinks:
-            scrapeData(x)
+            if 'image' not in x:
+                scrapeData(x)
 
         for x in otherLinks:
             x = HOME_URL + x[3:]
