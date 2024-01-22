@@ -1,9 +1,10 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS, cross_origin
 
 #from ipynb.fs.full.TfIdfImplementation import similar_documents
 
 app=Flask(__name__)
-
+CORS(app, support_credentials=True)
 
 @app.route("/")
 def home():
@@ -11,6 +12,7 @@ def home():
 
 
 @app.route("/query",methods=['GET'])
+@cross_origin(supports_credentials=True)
 def query():
     tokenId=request.args.get('tokenId')
     query=request.args.get('query')
@@ -28,4 +30,4 @@ def query():
 
 
 if __name__=="__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0',debug=True)
