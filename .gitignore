@@ -1,3 +1,5 @@
 /env
 /node_modules
 /bin
+/rbi_chatbot/node_modules
+/rbi_chatbot
