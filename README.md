@@ -68,3 +68,29 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+## Backend Setup
+## Setup Instructions
+
+1. **Clone the Repository**:
+2. **Install Dependencies**:
+- Make sure you have Python installed on your system.
+- Navigate to the project directory and run the following command to install dependencies:
+  ```
+  pip install -r requirements.txt
+  ```
+3. **Run the Flask Server**:
+
+## Endpoints
+
+- **GET /query**
+- **Parameters**:
+ - `tokenId`: Token ID for authorization.
+ - `query`: Query text.
+ - `limit`: Number of results to return.
+- **Description**: Returns similar documents based on the provided query.
+- **Example**: 
+ ```
+ GET http://localhost:5000/query?tokenId=<token>&query=<query_text>&limit=<number_of_results>
+ ```
+
